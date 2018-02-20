@@ -1,8 +1,19 @@
-<!DOCTYPE html>
 <html>
 <head>
   <style>
     /* styles */
+    .cell {
+      width: 4px;
+      height: 4px;
+      display: inline-block;
+      border: 1px solid black;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .alive {
+      background-color: red;
+    }
   </style>
 </head>
 <body>
@@ -15,29 +26,64 @@
     }
 
     function makeGrid(width, height) {
-      let x = [];
-      let y = [];
+      var grid = [];
 
-      pushToArray(height, y, 0);
-      pushToArray(width, x, y);
-      return x;
+      for(var i=0; i < width; i++) {
+        grid.push(new Array(height).fill(0));
+      }
+      return grid;
     }
 
     function renderGridToDOM(grid) {
-      for(let w = 0; w < grid.length; w++) {
-        for(let h = 0; h < grid[w].length; h++) {
+      let container = document.getElementById('container');
+      let height = grid[0].length;
+      let width = grid.length;
+
+      for(let h = 0; h < height; h++) {
+        let row = document.createElement('div');
+        for(let w = 0; w < width; w++) {
           let cell = document.createElement('div');
-          cell.innerHTML = "0";
-          document.getElementById('container').appendChild(cell);
+          cell.classList.add('cell');
+          cell.id = `cell-${w}-${h}`;
+          row.appendChild(cell);
+        }
+      container.appendChild(row);
+      }
+    }
+
+    function initializeGrid(grid) {
+      for(var i=0; i < grid.length; i++) {
+        for(var j=0; j < grid[0].length; j++) {
+          grid[i][j] = Math.random() < 0.33 ? 1 : 0;
         }
       }
     }
 
-    let grid = makeGrid(3, 3);
+    function updateDOM(grid) {
+      var width = grid.length;
+      var height = grid[0].length;
+      for(var h=0; h<height; h++) {
+        for(var w=0; w<width; w++) {
+          var cell = document.getElementById(`cell-${w}-${h}`);
+          if (grid[w][h] == 1) {
+            cell.classList.add('alive');
+          } else {
+            cell.classList.remove('alive');
+          }
+        }
+      }
+    }
+
+    let grid = makeGrid(100, 50);
+
+    initializeGrid(grid);
 
     renderGridToDOM(grid);
 
+    updateDOM(grid);
+
     console.log(grid);
+
   </script>
 </body>
 </html>
