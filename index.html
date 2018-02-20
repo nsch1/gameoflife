@@ -6,24 +6,36 @@
   </style>
 </head>
 <body>
-
+  <div id="container"></div>
   <script>
     function pushToArray(amount, array, element) {
-      for(var i = 0; i < amount; i++) {
+      for(let i = 0; i < amount; i++) {
         array.push(element);
       }
     }
 
     function makeGrid(width, height) {
-      var x = [];
-      var y = [];
+      let x = [];
+      let y = [];
 
       pushToArray(height, y, 0);
       pushToArray(width, x, y);
       return x;
     }
 
-    var grid = makeGrid(3, 3);
+    function renderGridToDOM(grid) {
+      for(let w = 0; w < grid.length; w++) {
+        for(let h = 0; h < grid[w].length; h++) {
+          let cell = document.createElement('div');
+          cell.innerHTML = "0";
+          document.getElementById('container').appendChild(cell);
+        }
+      }
+    }
+
+    let grid = makeGrid(3, 3);
+
+    renderGridToDOM(grid);
 
     console.log(grid);
   </script>
