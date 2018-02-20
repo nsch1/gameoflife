@@ -8,7 +8,24 @@
 <body>
 
   <script>
-    // Code
+    function pushToArray(amount, array, element) {
+      for(var i = 0; i < amount; i++) {
+        array.push(element);
+      }
+    }
+
+    function makeGrid(width, height) {
+      var x = [];
+      var y = [];
+
+      pushToArray(height, y, 0);
+      pushToArray(width, x, y);
+      return x;
+    }
+
+    var grid = makeGrid(3, 3);
+
+    console.log(grid);
   </script>
 </body>
 </html>
